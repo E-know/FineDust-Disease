@@ -31,6 +31,13 @@
   * nhid_gy20_t1_연도.sas7bdat 파일을 넣어주세요.  
   * **명세서 파일은 반드시 T120 폴더 안에 있는 데이터를 넣어주세요.**
 
+### 건강검진 파일
+
+`./data/health/gggj/파일명`
+
+ * 파일명 수정은 없습니다.
+ * nhid_gj_연도.sas7bdat 파일을 넣어주세요.
+
 ### 미세먼지
 ![한국환경공단 이미지](https://user-images.githubusercontent.com/55151796/122654877-38e21f00-d189-11eb-8478-c4a9b400cd86.png)  
 [한국환경공단-AirKorea](https://www.airkorea.or.kr/web/last_amb_hour_data?pMENU_NO=123)  
