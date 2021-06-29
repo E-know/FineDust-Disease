@@ -18,14 +18,14 @@
 
 #### 자격 파일  
 
-`./origin_data/health/jk/파일명`
+`./data/raw_health/jk/파일명`
   
   * 파일명 수정은 없습니다.  
   * nhid_jk_연도.sasbdat 파일을 넣어주세요.
 
 #### 명세서 파일  
 
-`./origin_data/health/mss/파일명`
+`./data/raw_health/mss/파일명`
   
   * 파일명 수정은 없습니다.  
   * nhid_gy20_t1_연도.sas7bdat 파일을 넣어주세요.  
@@ -33,7 +33,7 @@
 
 ### 건강검진 파일
 
-`./origin_data/health/gggj/파일명`
+`./data/raw_health/gggj/파일명`
 
  * 파일명 수정은 없습니다.
  * nhid_gj_연도.sas7bdat 파일을 넣어주세요.
@@ -46,7 +46,7 @@ AirKorea 에서 제공하는 미세먼지 데이터를 사용합니다.
 별도의 신청 없이 다운이 가능합니다.  
 데이터를 다운 받으시고, 아래의 폴더에 다음과 같이 넣어주시면 됩니다.  
 
-`./origin_data/dust/파일명`
+`./data/raw_dust/파일명`
 
   * 파일명 수정은 없습니다.
 
