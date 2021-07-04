@@ -5,6 +5,9 @@ import os
 # Plz input your Google geocode API
 # 사용자의 구글 지오코드 API 키 값이 환경변수로 저장되어 있어야합니다.
 
+start_year = 2002 # Plz Input Start Year
+end_year = 2013 # Plz Input End Year
+
 geo_api = os.environ['GEOCODE_API']
 map = googlemaps.Client(key=geo_api)
 
@@ -92,7 +95,7 @@ def make_data(dust_year_data, year):
 	result_excel.to_csv('./../../data/dust/dust' + year + '.csv')
 	
 def main():
-	for y in range(2002, 2014):
+	for y in range(start_year, end_year + 1):
 		year_data = None
 		year = str(y)
 		for q in range(1, 5):
