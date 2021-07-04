@@ -31,23 +31,8 @@ for y in range(start_year, end_year + 1):
 		if col not in col_list:
 			df_gggj.drop([col], axis=1, inplace=True)
 	
-	result = pd.DataFrame(columns=list(df_jk.columns) + list(df_gggj.columns) + ['A_DATE', 'B_DATE', 'C_DATE', 'D_DATE', 'E_DATE', 'F_DATE', 'G_DATE', 'H_DATE', 'I_DATE', 'J_DATE', 'K_DATE', 'L_DATE', 'M_DATE'])
+	result = pd.DataFrame(columns=list(df_jk.columns) + list(df_gggj.columns))
 	result.index.name = 'PERSON_ID'
-	"""
-	A_Date 천식
-	B_DATE 알레르기 질환
-	C_DATE 만성폐쇄성폐질환
-	D_DATE --[삭제]--
-	E_DATE 종양(암)
-	F_DATE 당뇨
-	G_DATE 만성신장질환
-	H_DATE 관절염
-	I_DATE 골다공증
-	J_DATE 알츠하이머
-	K_DATE 백내장
-	L_DATE 파킨슨
-	M_DATE 심장질환
-	"""
 	
 	for PERSON_ID in df_gggj.index:
 		row_jk = df_jk.loc[PERSON_ID]
@@ -69,5 +54,5 @@ for y in range(start_year, end_year + 1):
 	os.makedirs('../../data/helath', exist_ok=True)
 	os.makedirs('../../data/helath/jk+gggj', exist_ok=True)
 	
-	result.to_csv('../../data/helath/jk+gggj/' + year + 'jk+gggj.csv')
+	result.to_csv('../../data/helath/jk+gggj_ver1/' + year + 'jk+gggj_ver1.csv')
 	print(year, 'JK+GGGJ IS DONE')
