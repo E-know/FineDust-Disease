@@ -17,9 +17,11 @@ M_sick_code = ['I05', 'I06', 'I07', 'I08', 'I09', 'I20', 'I21', 'I22', 'I23', 'I
 sick_code_list = [A_sick_code, B_sick_code, C_sick_code, D_sick_code, E_sick_code, F_sick_code, G_sick_code, H_sick_code, I_sick_code, J_sick_code, K_sick_code, L_sick_code, M_sick_code]
 ALP = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']
 
+start_year = 2002
+end_year = 2013
 
 def main():
-	for y in range(2012, 2014):
+	for y in range(start_year, end_year + 1):
 		year = str(y)
 		
 		result = pd.read_csv('../../data/health/jk+gggj/' + year + 'jk+gggj.csv', index_col='PERSON_ID')
