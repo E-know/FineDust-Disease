@@ -9,10 +9,10 @@ for y in range(start_year, end_year + 1):
 	year = str(y)
 	df_mss = pd.read_sas('../../data/health/mss/nhid_gy20_t1_' + year + '.sas7bdat')
 	
-	mss_list = ['RECU_FR_DT', 'MAIN_SICK', 'SUB_SICK']
+	mss_list = ['PERSON_ID', 'RECU_FR_DT', 'MAIN_SICK', 'SUB_SICK']
 	# 용량 간소화를 위해 사용하지 않는 칼럼들 Drop
 	
-	for col in df_mss.index:
+	for col in df_mss.columns:
 		if col not in mss_list:
 			df_mss.drop(col, axis=1, inplace=True)
 	
