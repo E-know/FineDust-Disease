@@ -2,8 +2,10 @@ import pandas as pd
 import os
 
 # 연도의 데이터가 상당하므로 연도별로 따로 실행하는 것을 권장합니다.
+start_year = 2002
+end_year = 2013
 
-for y in range(2002, 2013):
+for y in range(start_year, end_year + 1):
 	year = str(y)
 	df_mss = pd.read_sas('../../data/health/mss/nhid_gy20_t1_' + year + '.sas7bdat')
 	
