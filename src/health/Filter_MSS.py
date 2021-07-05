@@ -5,16 +5,14 @@ import os
 
 for y in range(2002, 2013):
 	year = str(y)
-	df_sas = pd.read_sas('../../data/health/mss/nhid_gy20_t1_' + year + '.sas7bdat')
+	df_mss = pd.read_sas('../../data/health/mss/nhid_gy20_t1_' + year + '.sas7bdat')
 	
-	drop_list = ['KEY_SEQ', 'YKIHO_ID', 'FORM_CD', 'IN_PAT_CORS_TYPE', 'OFFC_INJ_TYPE', 'RECN', 'VSCN', 'FST_IN_PAT_DT', 'DMD_TRAMT', 'DMD_SBRDN_AMT', 'DMD_JBRDN_AMT', \
-	             'DMD_CT_TOT_AMT', 'DMD_MRI_TOT_AMT', 'EDEC_ADD_RT', 'EDEC_TRAMT', 'EDEC_SBRDN_AMT', 'EDEC_JBRDN_AMT', 'EDEC_CT_TOT_AMT', 'EDEC_MRI_TOT_AMT', \
-	             'DMD_DRG_NO', 'TOT_PRES_DD_CNT', 'DSBJT_CD']
+	mss_list = ['RECU_FR_DT', 'MAIN_SICK', 'SUB_SICK']
 	# 용량 간소화를 위해 사용하지 않는 칼럼들 Drop
 	
-	for col in drop_list:
-		if col in df_sas.columns:
-			df_sas.drop([col], axis=1, inplace=True)
+	for col in df_mss.index:
+		if col not in mss_list:
+			df_mss.drop(col, axis=1, inplace=True)
 	
 	sick_code_list = []
 	sick_code_list.append('J45', 'J46')  # 천식
@@ -30,11 +28,11 @@ for y in range(2002, 2013):
 	sick_code_list.append('G20', 'G21', 'G22')  # 파킨슨
 	sick_code_list.append('I05', 'I06', 'I07', 'I08', 'I09', 'I20', 'I21', 'I22', 'I23', 'I24', 'I25', 'I27')  # 심장 질환
 	
-	result_df = pd.DataFrame(columns=df_sas.columns)
+	result_df = pd.DataFrame(columns=df_mss.columns)
 	result_index = 0
 	
-	for i in df_sas.index:
-		row_mss = df_sas.iloc[i]
+	for i in df_mss.index:
+		row_mss = df_mss.iloc[i]
 		main_sick = ''
 		if isinstance(row_mss.at['MAIN_SICK'], bytes):
 			main_sick = row_mss.at['MAIN_SICK'].decode()
