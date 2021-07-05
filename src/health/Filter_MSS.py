@@ -52,5 +52,5 @@ for y in range(2002, 2013):
 				result_index += 1
 	
 	os.makedirs('../../data/filter_mss', exist_ok=True)
-	result_df.to_csv('../../data/filter_mss/mss' + year + '.csv', index=False)
+	result_df.to_csv('../../data/filter_mss/' + year + 'mss.csv', index=False)
 	print(year + ' IS DONE!')

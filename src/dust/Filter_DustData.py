@@ -92,7 +92,7 @@ def make_data(dust_year_data, year):
 		result_excel[date] = func_df[date]
 	
 	os.makedirs('./../../data/dust', exist_ok=True)
-	result_excel.to_csv('./../../data/dust/dust' + year + '.csv')
+	result_excel.to_csv('./../../data/dust/' + year + 'dust.csv')
 	
 def main():
 	for y in range(start_year, end_year + 1):
