@@ -17,18 +17,18 @@ for y in range(start_year, end_year + 1):
 			df_mss.drop(col, axis=1, inplace=True)
 	
 	sick_code_list = []
-	sick_code_list.append('J45', 'J46')  # 천식
-	sick_code_list.append('J30', 'L23', 'Z88')  # 알레르기 질환
-	sick_code_list.append('J44')  # 만성폐쇄성질환
-	sick_code_list.append('C')  # 종양(암)
-	sick_code_list.append('E10', 'E11', 'E12', 'E13', 'E14', 'O24', 'R81')  # 당뇨
-	sick_code_list.append('N11', 'N18')  # 만성신장질환
-	sick_code_list.append('M00', 'M01', 'M03', 'M05', 'M06', 'M07', 'M08', 'M09', 'M13')  # 관절염
-	sick_code_list.append('M80', 'M81', 'M82')  # 골다공증
-	sick_code_list.append('G30', 'F00')  # 알츠하이머
-	sick_code_list.append('H25', 'H26', 'H28')  # 백내장
-	sick_code_list.append('G20', 'G21', 'G22')  # 파킨슨
-	sick_code_list.append('I05', 'I06', 'I07', 'I08', 'I09', 'I20', 'I21', 'I22', 'I23', 'I24', 'I25', 'I27')  # 심장 질환
+	sick_code_list += ['J45', 'J46'] # 천식
+	sick_code_list += ['J30', 'L23', 'Z88'] # 알레르기 질환
+	sick_code_list += ['J44']  # 만성폐쇄성질환
+	sick_code_list += ['C']  # 종양(암)
+	sick_code_list += ['E10', 'E11', 'E12', 'E13', 'E14', 'O24', 'R81']  # 당뇨
+	sick_code_list += ['N11', 'N18']  # 만성신장질환
+	sick_code_list += ['M00', 'M01', 'M03', 'M05', 'M06', 'M07', 'M08', 'M09', 'M13']  # 관절염
+	sick_code_list += ['M80', 'M81', 'M82']  # 골다공증
+	sick_code_list += ['G30', 'F00']  # 알츠하이머
+	sick_code_list += ['H25', 'H26', 'H28']  # 백내장
+	sick_code_list += ['G20', 'G21', 'G22']  # 파킨슨
+	sick_code_list += ['I05', 'I06', 'I07', 'I08', 'I09', 'I20', 'I21', 'I22', 'I23', 'I24', 'I25', 'I27']  # 심장 질환
 	
 	result_df = pd.DataFrame(columns=df_mss.columns)
 	result_index = 0
