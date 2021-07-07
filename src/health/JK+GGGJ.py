@@ -81,7 +81,7 @@ def set_Term_SMK(result, PERSON_ID, value):
 		
 	if pd.isnull(result.at[PERSON_ID, 'SMK_TERM_RSPS_CD']):
 		result.at[PERSON_ID, 'SMK_TERM_RSPS_CD'] = ele
-	elif int(result.at[PERSON_ID, SMK_TERM_RSPS_CD]) < ele:
+	elif int(result.at[PERSON_ID, 'SMK_TERM_RSPS_CD']) < ele:
 		result.at[PERSON_ID, 'SMK_TERM_RSPS_CD'] = ele
 
 
@@ -102,7 +102,7 @@ def set_Qty_SMK(result, PERSON_ID, value):
 		
 	if pd.isnull(result.at[PERSON_ID, 'DSQTY_RSPS_CD']):
 		result.at[PERSON_ID, 'DSQTY_RSPS_CD'] = ele
-	elif int(result.at[PERSON_ID, SMK_TERM_RSPS_CD]) < ele:
+	elif int(result.at[PERSON_ID, 'DSQTY_RSPS_CD']) < ele:
 		result.at[PERSON_ID, 'DSQTY_RSPS_CD'] = ele
 
 
