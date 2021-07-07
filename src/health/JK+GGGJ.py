@@ -50,7 +50,7 @@ def set_PMH(result, PERSON_ID, ele):
 	if value == '1':
 		result.at[PERSON_ID, 'HCHK_PHSS_PMH_YN'] = 1
 	elif value == '4':
-		reseult.at[PERSON_ID, 'HCHK_HPRTS_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_HPRTS_PMH_YN'] = 1
 	elif value == '5':
 		result.at[PERSON_ID, 'HCHK_HDISE_PMH_YN'] = 1
 	elif value == '6':
@@ -85,7 +85,7 @@ def set_Term_SMK(result, PERSON_ID, value):
 		result.at[PERSON_ID, 'SMK_TERM_RSPS_CD'] = ele
 
 
-def set_Qty_SMK(result, value):
+def set_Qty_SMK(result, PERSON_ID, value):
 	if pd.isnull(value):
 		return
 	ele = 0
@@ -258,15 +258,15 @@ def year_2009_2013(y):
 			elif col == 'SMK_STAT_TYPE_RSPS_CD':
 				result.at[PERSON_ID, col] = get_value_T_str(row_gggj.at[col], -1)
 			elif col == 'PAST_SMK_TERM_RSPS_CD' or col == 'CUR_SMK_TERM_RSPS_CD':
-				set_Term_SMK(result, row_gggj.at[col])
+				set_Term_SMK(result, PERSON_ID, row_gggj.at[col])
 			elif col == 'PAST_DSQTY_RSPS_CD' or col == 'CUR_DSQTY_RSPS_CD':
-				set_Qty_SMK(result, row_gggj.at[col])
+				set_Qty_SMK(result, PERSON_ID, row_gggj.at[col])
 			elif col == 'DRNK_HABIT_RSPS_CD':
 				result.at[PERSON_ID, col] = get_HABIT_DRK(row_gggj.at[col])
 			elif col == 'TM1_DRKQTY_RSPS_CD':
 				result.at[PERSON_ID, col] = math.ceil(int(get_value_T_str(row_gggj.at[col], na_replace_zero=True)) / 3.75)
 			elif col == 'MOV20_WEK_FREQ_ID' or col == 'MOV30_WEK_FREQ_ID' or col == 'WLK30_WEK_FREQ_ID':
-				set_EXERCI_FREQ(result, row_gggj.at[col])
+				set_EXERCI_FREQ(result, PERSON_ID, row_gggj.at[col])
 				
 	result.fillna(0)
 	os.makedirs('../../data/', exist_ok=True)
