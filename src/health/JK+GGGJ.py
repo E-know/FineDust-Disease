@@ -270,8 +270,8 @@ def year_2009_2013(y):
 				
 	result.fillna(0)
 	os.makedirs('../../data/', exist_ok=True)
-	os.makedirs('../../data/helath', exist_ok=True)
-	os.makedirs('../../data/helath/jk+gggj', exist_ok=True)
+	os.makedirs('../../data/health', exist_ok=True)
+	os.makedirs('../../data/health/jk+gggj', exist_ok=True)
 	
 	result.to_csv('../../data/helath/jk+gggj/' + year + 'jk+gggj.csv')
 	print(year, 'JK+GGGJ IS DONE')
