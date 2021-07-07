@@ -28,7 +28,7 @@ def main():
 		for alp in ALP:
 			result[alp + '_DATE'] = pd.Series()
 		
-		df_mss = pd.read_csv('../../data/health/filter_mss' + year + 'mss.csv')
+		df_mss = pd.read_csv('../../data/health/filter_mss/' + year + 'mss.csv')
 		
 		result_index = list(result.index)
 		
@@ -60,7 +60,6 @@ def main():
 		
 		convert_date_TO_dust(result, year)
 		
-		os.makedirs('../../data', exist_ok=True)
 		os.makedirs('../../data/model', exist_ok=True)
 		result.to_csv('../../data/model/' + year + 'model.csv')
 		print(year)

@@ -50,7 +50,8 @@ for y in range(start_year, end_year + 1):
 					if isinstance(result_df.at[result_index, col], bytes):
 						result_df.at[result_index, col] = result_df.at[result_index, col].decode()
 				result_index += 1
-	
-	os.makedirs('../../data/filter_mss', exist_ok=True)
-	result_df.to_csv('../../data/filter_mss/' + year + 'mss.csv', index=False)
+				
+				
+	os.makedirs('../../data/health/filter_mss', exist_ok=True)
+	result_df.to_csv('../../data/health/filter_mss/' + year + 'mss.csv', index=False)
 	print(year + ' IS DONE!')

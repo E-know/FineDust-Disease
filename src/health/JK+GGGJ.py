@@ -208,8 +208,6 @@ def year_2002_2008(y):
 				result.at[PERSON_ID, col] = get_value_T_str(row_gggj.at[col], -1)
 		"""
 	result.fillna(0)
-	os.makedirs('../../data/', exist_ok=True)
-	os.makedirs('../../data/helath', exist_ok=True)
 	os.makedirs('../../data/helath/jk+gggj', exist_ok=True)
 	
 	result.to_csv('../../data/helath/jk+gggj/' + year + 'jk+gggj.csv')
@@ -269,8 +267,6 @@ def year_2009_2013(y):
 				set_EXERCI_FREQ(result, PERSON_ID, row_gggj.at[col])
 				
 	result.fillna(0)
-	os.makedirs('../../data/', exist_ok=True)
-	os.makedirs('../../data/health', exist_ok=True)
 	os.makedirs('../../data/health/jk+gggj', exist_ok=True)
 	
 	result.to_csv('../../data/helath/jk+gggj/' + year + 'jk+gggj.csv')
