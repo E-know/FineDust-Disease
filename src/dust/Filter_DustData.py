@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 import os
+import math
 
 start_year = 2002  # Plz Input Start Year
 end_year = 2002  # Plz Input End Year
-
 
 def get_sido_sgg_code():
 	answer = {}
@@ -38,9 +38,10 @@ def get_processed_data(year, quat):
 	sum_pm = 0
 	count = 0
 	
+	ms_info = pd.read_excel('./../../data/MS_Info.xlsx', index_col='MS_CODE')
+	
 	for index in data_excel.index:
 		row = data_excel.loc[index]
-		
 		# 측정일시가 달라지면 새로운 열 생
 		if date != str(row.at['측정일시'])[:8]:
 			input_dust_day_data(result_excel, ms_code, date, sum_pm, count)
@@ -54,22 +55,19 @@ def get_processed_data(year, quat):
 			input_dust_day_data(result_excel, ms_code, date, sum_pm, count)
 			sum_pm = 0
 			count = 0
-			# TODO GEOCODE 사용하지 않는 방향으로 에러 수정할것
-			# TODO get_lat_AND_lon 함수 삭제되었음
 			ms_code = row.at['측정소코드']
-			lat_A_lon = get_lat_AND_lon(row.at['주소'])
-			result_excel.at[ms_code, 'lat'] = round(lat_A_lon[0], 2)
-			result_excel.at[ms_code, 'lon'] = round(lat_A_lon[1], 2)
+			result_excel.at[ms_code, 'lat'] = ms_info.at[ms_code, 'LAT']
+			result_excel.at[ms_code, 'lon'] = ms_info.at[ms_code, 'LON']
 		
 		# 측정일시 혹은 측정소코드가 달라지지 않으면 PM10의 총합 계산
-		if pd.notnull(row.at['PM10']):
+		if pd.notnull(row.at['PM10']) and row.at['PM10'] != -999:
 			sum_pm += row.at['PM10']
 			count += 1
 	
 	return result_excel
 
 
-def make_data(dust_year_data, sido_sgg_dict):
+def make_data(dust_year_data, sido_sgg_dict, year):
 	result_excel = pd.DataFrame(columns=['lat', 'lon'])
 	
 	for sido_sgg in sido_sgg_dict.keys():
@@ -91,10 +89,11 @@ def make_data(dust_year_data, sido_sgg_dict):
 				data_dust.pop(i)
 				data_lat.pop(i)
 				data_lon.pop(i)
-		
+		#TODO idwr 함수 결과값이 늘 NaN으로만 출력 입력에 문제가 없는지 확인할것
 		func_result = idwr(x=data_lat, y=data_lon, z=data_dust, xi=result_excel['lat'].tolist(), yi=result_excel['lon'].tolist())
 		func_df = pd.DataFrame(func_result, columns=['lat', 'lon', date])  # 함수의 결과값이 이중리스트이므로 데이터프레임화 해서 date 열만 사용
 		result_excel[date] = func_df[date]
+		print(func_df)
 		
 		os.makedirs('../../data/dust', exist_ok=True)
 		result_excel.to_csv('../../data/dust/' + year + 'dust.csv')
@@ -111,11 +110,11 @@ def main():
 			
 			if year_data is None:
 				year_data = pd.DataFrame(columns=quat_dust_day_data.columns)
-				year_data.index.name = ms_code
+				year_data.index.name = 'MS_CODE'
 			
 			dust_data_quat_to_year(year_data, quat_dust_day_data)
 		
-		make_data(year_data, sido_sgg_dict)
+		make_data(year_data, sido_sgg_dict, year)
 
 
 def input_dust_day_data(df, ms_code, date, sum_pm, count):
@@ -127,10 +126,6 @@ def input_dust_day_data(df, ms_code, date, sum_pm, count):
 
 
 def dust_data_quat_to_year(year_data, quat_data):
-	if len(year_data.index) != len(quat_data.index):
-		print('dust_data_quat_to_year -> FAILED')
-		return False
-	
 	for col in quat_data:
 		if col == 'lat' or col == 'lon':
 			continue
