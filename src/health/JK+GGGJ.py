@@ -48,17 +48,17 @@ def get_value_T_str(value, correction_value=0, na_replace_zero=False):
 def set_PMH(result, PERSON_ID, ele):
 	value = get_value_T_str(ele)
 	if value == '1':
-		result.at[PERSON_ID, 'HCHK_PHSS_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_PHSS_PMH_YN'] = 1  # 폐결핵
 	elif value == '4':
-		result.at[PERSON_ID, 'HCHK_HPRTS_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_HPRTS_PMH_YN'] = 1 # 고혈압
 	elif value == '5':
-		result.at[PERSON_ID, 'HCHK_HDISE_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_HDISE_PMH_YN'] = 1 # 심장병
 	elif value == '6':
-		result.at[PERSON_ID, 'HCHK_APOP_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_APOP_PMH_YN'] = 1 # 뇌졸증
 	elif value == '7':
-		result.at[PERSON_ID, 'HCHK_DIABML_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_DIABML_PMH_YN'] = 1 # 당뇨병
 	elif value == '8' or value == '9':
-		result.at[PERSON_ID, 'HCHK_ETCDSE_PMH_YN'] = 1
+		result.at[PERSON_ID, 'HCHK_ETCDSE_PMH_YN'] = 1 # 암질환
 
 
 def set_Term_SMK(result, PERSON_ID, value):
