@@ -4,7 +4,7 @@ import os
 import math
 
 start_year = 2002  # Plz Input Start Year
-end_year = 2002  # Plz Input End Year
+end_year = 2013  # Plz Input End Year
 
 def get_sido_sgg_code():
 	answer = {}
@@ -70,33 +70,39 @@ def get_processed_data(year, quat):
 def make_data(dust_year_data, sido_sgg_dict, year):
 	result_excel = pd.DataFrame(columns=['lat', 'lon'])
 	
+	ms_info = pd.read_excel('./../../data/MS_Info.xlsx', index_col='MS_CODE')
+	
 	for sido_sgg in sido_sgg_dict.keys():
 		result_excel.at[sido_sgg, 'lat'] = sido_sgg_dict[sido_sgg]['lat']
 		result_excel.at[sido_sgg, 'lon'] = sido_sgg_dict[sido_sgg]['lon']
+	
+	for ms_code in dust_year_data.index:
+		dust_year_data.at[ms_code, 'lat'] = ms_info.at[ms_code, 'LAT']
+		dust_year_data.at[ms_code, 'lon'] = ms_info.at[ms_code, 'LON']
 	
 	for date in dust_year_data.columns:
 		# processed_excel 에서 열 = 날짜 하지만 첫 두 열은 lat과 lon 이므로 제외
 		if date == 'lat' or date == 'lon':
 			continue
 		
-		data_lat = dust_year_data['lat'].tolist()
-		data_lon = dust_year_data['lon'].tolist()
-		data_dust = dust_year_data[date].tolist()
+		input_data = pd.DataFrame()
+		input_data['lat'] = dust_year_data['lat']
+		input_data['lon'] = dust_year_data['lon']
+		input_data[date] = dust_year_data[date]
+		input_data.dropna(inplace=True)
 		
-		# 측정소에서 운영을 하지 않았던 날도 있으므로 운영을 하지 않은 측정소는 열외
-		for i, e in enumerate(data_dust):
-			if np.isnan(e) or pd.isnull(e):
-				data_dust.pop(i)
-				data_lat.pop(i)
-				data_lon.pop(i)
 		#TODO idwr 함수 결과값이 늘 NaN으로만 출력 입력에 문제가 없는지 확인할것
-		func_result = idwr(x=data_lat, y=data_lon, z=data_dust, xi=result_excel['lat'].tolist(), yi=result_excel['lon'].tolist())
+		func_result = idwr(x=input_data['lat'].tolist(), y=input_data['lon'].tolist(), z=input_data[date].tolist(), xi=result_excel['lat'].tolist(), yi=result_excel['lon'].tolist())
 		func_df = pd.DataFrame(func_result, columns=['lat', 'lon', date])  # 함수의 결과값이 이중리스트이므로 데이터프레임화 해서 date 열만 사용
-		result_excel[date] = func_df[date]
-		print(func_df)
+		dust_list = func_df[date].tolist()
+		dust_index = 0
+		for index in result_excel.index:
+			result_excel.at[index, date] = dust_list[dust_index]
+			dust_index += 1
 		
-		os.makedirs('../../data/dust', exist_ok=True)
-		result_excel.to_csv('../../data/dust/' + year + 'dust.csv')
+		
+	os.makedirs('../../data/dust', exist_ok=True)
+	result_excel.to_csv('../../data/dust/' + year + 'dust.csv')
 
 
 def main():
@@ -113,7 +119,6 @@ def main():
 				year_data.index.name = 'MS_CODE'
 			
 			dust_data_quat_to_year(year_data, quat_dust_day_data)
-		
 		make_data(year_data, sido_sgg_dict, year)
 
 
@@ -156,7 +161,11 @@ def idwr(x, y, z, xi, yi):
 		lstdist = []
 		for s in range(len(x)):
 			d = (harvesine(x[s], y[s], xi[p], yi[p]))
+			if d == 0:
+				d = 0.00000000000000001
 			lstdist.append(d)
+			
+		
 		sumsup = list((1 / np.power(lstdist, 2)))
 		suminf = np.sum(sumsup)
 		sumsup = np.sum(np.array(sumsup) * np.array(z))
@@ -165,6 +174,3 @@ def idwr(x, y, z, xi, yi):
 		xyzi = [xi[p], yi[p], u]
 		lstxyzi.append(xyzi)
 	return lstxyzi
-
-
-main()
