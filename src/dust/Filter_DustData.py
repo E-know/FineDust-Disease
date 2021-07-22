@@ -91,7 +91,6 @@ def make_data(dust_year_data, sido_sgg_dict, year):
 		input_data[date] = dust_year_data[date]
 		input_data.dropna(inplace=True)
 		
-		#TODO idwr 함수 결과값이 늘 NaN으로만 출력 입력에 문제가 없는지 확인할것
 		func_result = idwr(x=input_data['lat'].tolist(), y=input_data['lon'].tolist(), z=input_data[date].tolist(), xi=result_excel['lat'].tolist(), yi=result_excel['lon'].tolist())
 		func_df = pd.DataFrame(func_result, columns=['lat', 'lon', date])  # 함수의 결과값이 이중리스트이므로 데이터프레임화 해서 date 열만 사용
 		dust_list = func_df[date].tolist()
@@ -100,7 +99,11 @@ def make_data(dust_year_data, sido_sgg_dict, year):
 			result_excel.at[index, date] = dust_list[dust_index]
 			dust_index += 1
 		
+	temp = dust_year_data.drop(['lat', 'lon'], axis=1)
+	for index in dust_year_data.index:
+		dust_year_data.at[index, 'AVE'] = temp.loc[index].mean()
 		
+	
 	os.makedirs('../../data/dust', exist_ok=True)
 	result_excel.to_csv('../../data/dust/' + year + 'dust.csv')
 
