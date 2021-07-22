@@ -81,5 +81,7 @@ def convert_date_TO_dust(result, year):
 				sido = str(result.at[PERSON_ID, 'SIDO'])
 				sgg = str(result.at[PERSON_ID, 'SGG'])
 				result.at[PERSON_ID, alp + '_DATE'] = dust.at[sido + '_' + sgg, str(int(result.at[PERSON_ID, alp + '_DATE']))]
+			else:
+				result.at[PERSON_ID, alp + '_DATE'] = dust.at[sido + '_' + sgg, 'AVE']
 
 main()
