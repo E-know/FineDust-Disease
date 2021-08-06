@@ -4,7 +4,7 @@ import os
 import math
 
 start_year = 2002  # Plz Input Start Year
-end_year = 2013  # Plz Input End Year
+end_year = 2002  # Plz Input End Year
 
 def get_sido_sgg_code():
 	answer = {}
@@ -99,9 +99,10 @@ def make_data(dust_year_data, sido_sgg_dict, year):
 			result_excel.at[index, date] = dust_list[dust_index]
 			dust_index += 1
 		
-	temp = dust_year_data.drop(['lat', 'lon'], axis=1)
-	for index in dust_year_data.index:
-		dust_year_data.at[index, 'AVE'] = temp.loc[index].mean()
+	temp = result_excel.drop(['lat', 'lon'], axis=1)
+	
+	for index in temp.index:
+		result_excel.at[index, 'AVE'] = round(temp.loc[index].mean(), 2)
 		
 	
 	os.makedirs('../../data/dust', exist_ok=True)
@@ -123,6 +124,7 @@ def main():
 			
 			dust_data_quat_to_year(year_data, quat_dust_day_data)
 		make_data(year_data, sido_sgg_dict, year)
+		print('DUST] ', year, 'IS DONE')
 
 
 def input_dust_day_data(df, ms_code, date, sum_pm, count):
@@ -177,3 +179,5 @@ def idwr(x, y, z, xi, yi):
 		xyzi = [xi[p], yi[p], u]
 		lstxyzi.append(xyzi)
 	return lstxyzi
+
+main()

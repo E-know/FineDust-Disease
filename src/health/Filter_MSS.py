@@ -3,11 +3,11 @@ import os
 
 # 연도의 데이터가 상당하므로 연도별로 따로 실행하는 것을 권장합니다.
 start_year = 2002
-end_year = 2013
+end_year = 2002
 
 for y in range(start_year, end_year + 1):
 	year = str(y)
-	df_mss = pd.read_sas('../../data/health/mss/nhid_gy20_t1_' + year + '.sas7bdat')
+	df_mss = pd.read_sas('../../data/raw_health/mss/nhid_gy20_t1_' + year + '.sas7bdat')
 	
 	mss_list = ['PERSON_ID', 'RECU_FR_DT', 'MAIN_SICK', 'SUB_SICK']
 	# 용량 간소화를 위해 사용하지 않는 칼럼들 Drop
@@ -17,8 +17,8 @@ for y in range(start_year, end_year + 1):
 			df_mss.drop(col, axis=1, inplace=True)
 	
 	sick_code_list = []
-	sick_code_list += ['J45', 'J46'] # 천식
-	sick_code_list += ['J30', 'L23', 'Z88'] # 알레르기 질환
+	sick_code_list += ['J45', 'J46']  # 천식
+	sick_code_list += ['J30', 'L23', 'Z88']  # 알레르기 질환
 	sick_code_list += ['J44']  # 만성폐쇄성질환
 	sick_code_list += ['C']  # 종양(암)
 	sick_code_list += ['E10', 'E11', 'E12', 'E13', 'E14', 'O24', 'R81']  # 당뇨
@@ -32,7 +32,8 @@ for y in range(start_year, end_year + 1):
 	
 	result_df = pd.DataFrame(columns=df_mss.columns)
 	result_index = 0
-	
+	max_len = len(df_mss)
+	print('START')
 	for i in df_mss.index:
 		row_mss = df_mss.iloc[i]
 		main_sick = ''
@@ -50,8 +51,9 @@ for y in range(start_year, end_year + 1):
 					if isinstance(result_df.at[result_index, col], bytes):
 						result_df.at[result_index, col] = result_df.at[result_index, col].decode()
 				result_index += 1
-				
-				
+		if i % 100000 == 0:
+			print(i, '/', max_len)
+	
 	os.makedirs('../../data/health/filter_mss', exist_ok=True)
 	result_df.to_csv('../../data/health/filter_mss/' + year + 'mss.csv', index=False)
-	print(year + ' IS DONE!')
+	print('MSS]' + year + ' IS DONE!')

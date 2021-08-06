@@ -9,7 +9,7 @@ import pandas as pd
 # start_year 부터 end_year 까지 진행됨으로, 나눠서 진행을 원할경우 숫자를 변경하시면 됩니다.
 ################
 start_year = 2002
-end_year = 2013
+end_year = 2002
 
 result_col = [
 	'SEX', 'AGE_GROUP', 'SIDO', 'SGG',
@@ -149,8 +149,8 @@ def set_EXERCI_FREQ(result, PERSON_ID, value):
 def year_2002_2008(y):
 	year = str(y)
 	
-	df_jk = pd.read_sas('../../data/raw_helath/jk/nhid_jk_' + year + '.sas7bdat', index='PERSON_ID')
-	df_gggj = pd.read_sas('../../data/raw_helath/gggj/nhid_gj_' + year + '.sas7bdat', index='PERSON_ID')
+	df_jk = pd.read_sas('./../../data/raw_health/jk/nhid_jk_' + year + '.sas7bdat', index='PERSON_ID')
+	df_gggj = pd.read_sas('./../../data/raw_health/gggj/nhid_gj_' + year + '.sas7bdat', index='PERSON_ID')
 	result = pd.DataFrame(columns=result_col)
 	result.index.name = 'PERSON_ID'
 	
@@ -208,17 +208,17 @@ def year_2002_2008(y):
 				result.at[PERSON_ID, col] = get_value_T_str(row_gggj.at[col], -1)
 		"""
 	result.fillna(0)
-	os.makedirs('../../data/helath/jk+gggj', exist_ok=True)
+	os.makedirs('../../data/health/jk+gggj', exist_ok=True)
 	
-	result.to_csv('../../data/helath/jk+gggj/' + year + 'jk+gggj.csv')
+	result.to_csv('../../data/health/jk+gggj/' + year + 'jk+gggj.csv')
 	print(year, 'JK+GGGJ IS DONE')
 
 
 def year_2009_2013(y):
 	year = str(y)
 	
-	df_jk = pd.read_sas('../../data/raw_helath/jk/nhid_jk_' + year + '.sas7bdat', index='PERSON_ID')
-	df_gggj = pd.read_sas('../../data/raw_helath/gggj/nhid_gj_' + year + '.sas7bdat', index='PERSON_ID')
+	df_jk = pd.read_sas('../../data/raw_health/jk/nhid_jk_' + year + '.sas7bdat', index='PERSON_ID')
+	df_gggj = pd.read_sas('../../data/raw_health/gggj/nhid_gj_' + year + '.sas7bdat', index='PERSON_ID')
 	result = pd.DataFrame(columns=result_col)
 	result.index.name = 'PERSON_ID'
 	
@@ -269,7 +269,7 @@ def year_2009_2013(y):
 	result.fillna(0)
 	os.makedirs('../../data/health/jk+gggj', exist_ok=True)
 	
-	result.to_csv('../../data/helath/jk+gggj/' + year + 'jk+gggj.csv')
+	result.to_csv('../../data/health/jk+gggj/' + year + 'jk+gggj.csv')
 	print(year, 'JK+GGGJ IS DONE')
 
 main()

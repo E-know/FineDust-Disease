@@ -18,7 +18,8 @@ sick_code_list = [A_sick_code, B_sick_code, C_sick_code, D_sick_code, E_sick_cod
 ALP = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M']
 
 start_year = 2002
-end_year = 2013
+end_year = 2002
+
 
 def main():
 	for y in range(start_year, end_year + 1):
@@ -31,7 +32,7 @@ def main():
 		df_mss = pd.read_csv('../../data/health/filter_mss/' + year + 'mss.csv')
 		
 		result_index = list(result.index)
-		
+		print('START')
 		for index in df_mss.index:
 			# 잘못 적힌 데이터 Skip
 			if df_mss.at[index, 'RECU_FR_DT'] < 10000:
@@ -62,7 +63,7 @@ def main():
 		
 		os.makedirs('../../data/model', exist_ok=True)
 		result.to_csv('../../data/model/' + year + 'model.csv')
-		print(year)
+		print(year, ' IS END')
 
 
 def set_Date(result, PERSON_ID, X_DATE, date):
@@ -77,11 +78,12 @@ def convert_date_TO_dust(result, year):
 	
 	for PERSON_ID in result.index:
 		for alp in ALP:
+			sido = str(result.at[PERSON_ID, 'SIDO'])
+			sgg = str(result.at[PERSON_ID, 'SGG'])
 			if not pd.isnull(result.at[PERSON_ID, alp + '_DATE']):
-				sido = str(result.at[PERSON_ID, 'SIDO'])
-				sgg = str(result.at[PERSON_ID, 'SGG'])
 				result.at[PERSON_ID, alp + '_DATE'] = dust.at[sido + '_' + sgg, str(int(result.at[PERSON_ID, alp + '_DATE']))]
 			else:
 				result.at[PERSON_ID, alp + '_DATE'] = dust.at[sido + '_' + sgg, 'AVE']
+
 
 main()
