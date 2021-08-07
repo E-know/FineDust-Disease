@@ -64,10 +64,7 @@ def main():
 		os.makedirs('../../data/model', exist_ok=True)
 		result.to_csv('../../data/model/' + year + 'model.csv')
 		print(year, ' IS END')
-		
-		# TODO ERASE
-		if os.path.isfile('temp.csv'):
-			os.remove('temp.csv')
+
 
 def set_Date(result, PERSON_ID, X_DATE, date):
 	if pd.isnull(result.at[PERSON_ID, X_DATE]):
