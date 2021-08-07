@@ -1,3 +1,5 @@
+import os.path
+
 import numpy as np
 import pandas as pd
 
@@ -59,12 +61,13 @@ def main():
 					if main_sick in sick_code_list[i] or sub_sick in sick_code_list[i]:
 						set_Date(result, PERSON_ID, ALP[i] + '_DATE', str(row_mss.at['RECU_FR_DT']))
 		
-		convert_date_TO_dust(result, year)
-		
 		os.makedirs('../../data/model', exist_ok=True)
 		result.to_csv('../../data/model/' + year + 'model.csv')
 		print(year, ' IS END')
-
+		
+		# TODO ERASE
+		if os.path.isfile('temp.csv'):
+			os.remove('temp.csv')
 
 def set_Date(result, PERSON_ID, X_DATE, date):
 	if pd.isnull(result.at[PERSON_ID, X_DATE]):
@@ -74,7 +77,7 @@ def set_Date(result, PERSON_ID, X_DATE, date):
 
 
 def convert_date_TO_dust(result, year):
-	dust = pd.read_csv('../../data/dust/' + year + 'dust.csv')
+	dust = pd.read_csv('../../data/dust/' + year + 'dust.csv', index_col='SIDO_SGG')
 	
 	for PERSON_ID in result.index:
 		for alp in ALP:
@@ -82,8 +85,6 @@ def convert_date_TO_dust(result, year):
 			sgg = str(result.at[PERSON_ID, 'SGG'])
 			if not pd.isnull(result.at[PERSON_ID, alp + '_DATE']):
 				result.at[PERSON_ID, alp + '_DATE'] = dust.at[sido + '_' + sgg, str(int(result.at[PERSON_ID, alp + '_DATE']))]
-			else:
-				result.at[PERSON_ID, alp + '_DATE'] = dust.at[sido + '_' + sgg, 'AVE']
-
+			
 
 main()

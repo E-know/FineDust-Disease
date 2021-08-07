@@ -35,7 +35,7 @@ def main():
 def get_value_T_str(value, correction_value=0, na_replace_zero=False):
 	if not pd.isnull(value):
 		if isinstance(value, bytes):
-			return str(int(value.decode()) - correction_value)
+			return str(int(value.decode()) + correction_value)
 		else:
 			return str(int(value) - correction_value)
 	elif na_replace_zero:

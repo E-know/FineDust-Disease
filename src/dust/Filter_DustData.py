@@ -104,7 +104,7 @@ def make_data(dust_year_data, sido_sgg_dict, year):
 	for index in temp.index:
 		result_excel.at[index, 'AVE'] = round(temp.loc[index].mean(), 2)
 		
-	
+	result_excel.index.name = 'SIDO_SGG'
 	os.makedirs('../../data/dust', exist_ok=True)
 	result_excel.to_csv('../../data/dust/' + year + 'dust.csv')
 
